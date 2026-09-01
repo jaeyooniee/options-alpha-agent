@@ -65,12 +65,14 @@ replacement. Do not show `.env`, API keys, account IDs, or private browser tabs.
 Configure the repository-only identity and inspect the staged diff using
 `docs/local-git-setup.md`, then run
 `powershell -ExecutionPolicy Bypass -File scripts/release-preflight.ps1 -RequireStaged`.
-A local commit may be created before public
-repository approval; the first push is a separate approval step.
+A local commit may be created before a release push. This project already has
+an approved public repository and a passing remote CI run; future pushes remain
+approval-gated.
 
 ## 5. Public release and final form
 
-Only after explicit approval, create the public GitHub repository, deploy the
-read-only dashboard/worker, publish the selected build-in-public posts, and
-submit the final form. Use the paper account ID only in the organizer's final
-submission field; never place it in source, screenshots, logs, or public docs.
+Only after explicit approval, deploy the read-only dashboard/worker, publish the
+selected build-in-public posts, and submit the final form. The public GitHub
+repository already exists and its latest CI run passed. Use the paper account ID
+only in the organizer's final submission field; never place it in source,
+screenshots, logs, or public docs.

@@ -27,7 +27,7 @@ GitHub **Settings → Emails**. Do not put an Alpaca key, Featherless key, OpenA
 key, account ID, or personal address in the repository. `.env` is ignored; only
 `.env.example` is intended for source control.
 
-Before creating a public repository, inspect the staged filenames and run:
+Before every approved release push, inspect the staged filenames and run:
 
 ```powershell
 git diff --cached --check
@@ -41,8 +41,8 @@ git grep --cached -n -I -E `
 
 The final command should return no matches. The repository's intentional
 scanner examples are excluded by the release preflight; do not treat those
-examples as credentials. Public repository creation and the
-first push remain a separate, approval-gated step.
+examples as credentials. The public repository and first push for this project
+are complete. Future release pushes remain separate, approval-gated steps.
 
 Before the first commit, run the read-only release gate. It does not stage,
 commit, push, upload, deploy, or place an order:

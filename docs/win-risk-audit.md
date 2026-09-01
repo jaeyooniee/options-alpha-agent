@@ -1,6 +1,6 @@
 # Win-Risk Audit
 
-Evidence-based audit, last reviewed 2026-08-30 KST. This is a prioritised
+Evidence-based audit, last reviewed 2026-09-01 KST. This is a prioritised
 competition-readiness assessment, not a prediction of the competition result.
 It intentionally distinguishes local implementation proof from evidence a judge
 can actually inspect.
@@ -12,7 +12,7 @@ prototype**, but it is not yet competitive for the P&L criterion and cannot
 yet satisfy all externally verifiable submission requirements. The immediate
 ranking threats are real, not cosmetic: there is no live paper P&L, the
 underlying-signal holdouts are negative, the autonomous worker is not deployed,
-and there is no public repository or working URL.
+and there is no working public demo URL.
 
 No change in this audit authorizes an order, public release, deployment, or
 paid AI call.
@@ -22,7 +22,7 @@ paid AI call.
 | Risk | Evidence | Why it can lose | Repair / owner | Status |
 |---|---|---|---|---|
 | No realised competition P&L | Fresh account remains $100,000 with zero orders, fills, and positions | P&L Performance is an explicit official criterion | Finish research gates, then use only explicitly approved, bounded paper trades and record every lifecycle event | Blocked by strategy validation and user approval |
-| No public GitHub repository | `git status` shows every project file untracked; no commits or remote | Judges cannot inspect the required public source or CI | Configure repo-local identity, commit, create/push public repo only on explicit approval | Awaiting user approval for public creation |
+| Public GitHub repository | Public `main` repository is live at `https://github.com/jaeyooniee/options-alpha-agent`; latest remote CI run `33503335237` passed | This risk is resolved; future changes must preserve public-safe history and green CI | Keep release preflight mandatory before every approved push | Resolved 2026-09-01 |
 | No working public demo URL | Dashboard exists only locally; no cloud resource exists | The submission form requests a direct live demo URL | Deploy read-only dashboard plus scheduled worker only on explicit approval | Awaiting user approval and cloud account |
 | Worker is not autonomous in production | `shadow-cycle` is one-shot; no Scheduler/Cloud Run deployment exists | A local command is not a continuously autonomous agent | Deploy one-shot worker on a one-minute schedule with durable state, lock, and health proof | Awaiting deployment approval |
 | An opened position has no automated close-order path | Existing positions now block every new AI entry for an auditable exit review, but `evaluate_exit` still makes only an `EXIT_REVIEW` and no worker resolves a real position to an audited close preview/order | A paper agent that can open but cannot safely close is not operationally autonomous and can damage P&L | Build and test a paper-only position ledger, exit preview, reconciliation, and separately approval-gated close adapter before enabling entries | Local implementation work required |
@@ -43,7 +43,7 @@ paid AI call.
 |---|---|---|---|---|
 | No open-market end-to-end AI shadow proof | Existing live evidence is a closed-market `NO_TRADE`; Featherless live inference is intentionally not run | Technology Implementation is not fully demonstrated under live market data | Run one explicitly approved, non-executing open-market shadow cycle and capture sanitized evidence | Awaiting market session and paid-call approval |
 | No durable production audit proof | GCS code and preflight exist but no bucket/deployed worker is configured | A disposable worker cannot provide a reliable audit trail | Deploy GCS-backed audit and verify hash-chain continuity from the public-safe dashboard | Awaiting deployment approval |
-| CI has never run remotely | CI is present but repository has no commit/push | Local tests alone are weaker evidence | Push approved repository and show passing Actions workflow | Awaiting GitHub approval |
+| CI has never run remotely | GitHub Actions run `33503335237` completed successfully, including tests, submission check, worker build/smoke, and dashboard smoke | This risk is resolved for the current commit; later changes can regress it | Require a green remote run after every release push | Resolved 2026-09-01 |
 | Container runtime is not locally verified | Docker is unavailable locally; image smoke tests are CI-only | Deployment can fail despite Python tests | Use remote CI after the first approved push, then validate deployed health endpoint | Awaiting GitHub/deployment |
 | Minute scheduling documentation conflicts with prior five-minute architecture text | `docs/minute-operations.md` says one minute while cloud options previously said five minutes | Judges may question what actually runs | Make the worker contract and cloud instructions consistently one minute, including retry/lock behavior | Local documentation fix required |
 
@@ -74,8 +74,9 @@ paid AI call.
    collect minute-by-minute read-only observations as soon as the market opens.
 4. Run an approved open-market shadow inference, then capture reproducible
    evidence and refresh the dashboard/video.
-5. With separate approvals: commit/push public source, confirm CI, deploy the
-   read-only dashboard and worker, then submit the final form.
+5. With separate approvals: deploy the read-only dashboard and worker, refresh
+   live evidence and presentation assets, then submit the final form. Keep the
+   existing public source and green CI as release baselines.
 
 ## What is already strong
 
@@ -85,7 +86,7 @@ paid AI call.
   account freshness, and options level are documented without exposing secrets.
 - The deterministic risk engine, strict AI schema, audit chain, quote freshness,
   stale-data fail-closed behavior, and MLeg dry run are unusually reviewable.
-- Local quality gates pass: Ruff formatting/lint, submission check, and 126
+- Local quality gates pass: Ruff formatting/lint, submission check, and 140
   tests as of this audit.
 
 These strengths are the foundation for a good submission, but they do not erase

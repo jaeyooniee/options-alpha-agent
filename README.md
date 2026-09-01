@@ -174,5 +174,6 @@ loop over live evidence, and cloud deployment remain pending. A narrated
 158.99-second H.264/AAC 1080p MP4 has been generated from the visually checked
 deck and decoded frame-by-frame; it is a presentation artifact, not a claim of
 live trading performance. The cover asset, slide PDF, and MP4 pass local
-validation, while public GitHub and external submission remain approval-gated;
-the project is therefore NO-GO for its first paper order.
+validation. The public repository is live and the latest GitHub Actions run is
+green; future release pushes and external submission remain approval-gated. The
+project is therefore still NO-GO for its first paper order.
