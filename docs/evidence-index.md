@@ -30,7 +30,7 @@ contains no credentials, paper account ID, or broker order payload.
 | Criterion | Evidence | Truthful current limit |
 |---|---|---|
 | Application of Technology | Strict-schema AI boundary in `src/options_alpha_agent/ai.py`; Alpaca SDK/MCP evidence; deterministic risk and lifecycle modules; hash-chained audit log; reproducible test suite | An open-market paid AI shadow run and deployed durable audit are pending |
-| Presentation | `/demo` overview; local safety console; [six-slide deck](../artifacts/pdf-build/Options-Alpha-Guarded-Agent.pdf); narrated [MP4](../submission/demo.mp4); [demo script](demo-script.md) | No external demo URL until approved deployment |
+| Presentation | `/demo` overview; local safety console; [six-slide deck](../submission/options-alpha-slides.pdf); narrated [MP4](../submission/demo.mp4); [demo script](demo-script.md) | No external demo URL until approved deployment |
 | Business Value | [Judging scorecard](judging-scorecard.md) explains the target user: systematic traders, research teams, and fintech builders needing a reviewable control layer | No revenue, TAM, or return claim is made |
 | Originality | [One-page write-up](one-page-writeup.md): AI has no broker access; stale or malformed evidence becomes `NO_TRADE`; loss is recomputed from evidence | No historical alpha claim is made |
 

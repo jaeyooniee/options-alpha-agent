@@ -175,7 +175,7 @@ def run_submission_checks(root: str | Path = ".") -> list[SubmissionCheck]:
         _file_check(
             workspace,
             "slide PDF",
-            "artifacts/pdf-build/Options-Alpha-Guarded-Agent.pdf",
+            "submission/options-alpha-slides.pdf",
         ),
         _file_check(workspace, "demo MP4", "submission/demo.mp4"),
     ]
