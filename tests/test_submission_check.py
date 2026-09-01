@@ -12,7 +12,7 @@ def _write_required_files(root: Path) -> None:
         "docs/compliance-matrix.md",
         "docs/demo-script.md",
         "Dockerfile.worker",
-        "artifacts/pdf-build/Options-Alpha-Guarded-Agent.pdf",
+        "submission/options-alpha-slides.pdf",
     ):
         path = root / relative
         path.parent.mkdir(parents=True, exist_ok=True)

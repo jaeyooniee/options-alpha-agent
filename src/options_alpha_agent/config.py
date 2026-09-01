@@ -5,9 +5,10 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
-from pathlib import Path
 
 from dotenv import load_dotenv
+
+from options_alpha_agent.provenance import is_unsafe_workspace_path
 
 
 def _bool_env(name: str, default: bool) -> bool:
@@ -180,11 +181,9 @@ class Settings:
                 raise ValueError(f"{field_name} cannot be negative")
         if not Decimal("0") <= self.min_ai_confidence <= Decimal("1"):
             raise ValueError("MIN_AI_CONFIDENCE must be between 0 and 1")
-        audit_path = Path(self.ai_audit_log_path)
-        if audit_path.is_absolute() or ".." in audit_path.parts:
+        if is_unsafe_workspace_path(self.ai_audit_log_path):
             raise ValueError("AI_AUDIT_LOG_PATH must be a workspace-relative path")
-        lock_path = Path(self.worker_lock_path)
-        if lock_path.is_absolute() or ".." in lock_path.parts:
+        if is_unsafe_workspace_path(self.worker_lock_path):
             raise ValueError("WORKER_LOCK_PATH must be a workspace-relative path")
         if self.durable_state_backend not in {"local", "gcs"}:
             raise ValueError("DURABLE_STATE_BACKEND must be local or gcs")
@@ -192,8 +191,7 @@ class Settings:
             raise ValueError("GCS_STATE_BUCKET is required when DURABLE_STATE_BACKEND=gcs")
         for field_name in ("gcs_audit_object", "gcs_lock_object"):
             object_name = getattr(self, field_name)
-            object_path = Path(object_name)
-            if not object_name or object_path.is_absolute() or ".." in object_path.parts:
+            if not object_name or is_unsafe_workspace_path(object_name):
                 raise ValueError(f"{field_name.upper()} must be a safe bucket-relative object name")
         if not 60 <= self.gcs_lock_ttl_seconds <= 3_600:
             raise ValueError("GCS_LOCK_TTL_SECONDS must be between 60 and 3600")

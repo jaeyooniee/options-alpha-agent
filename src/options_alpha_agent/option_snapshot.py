@@ -12,7 +12,7 @@ from types import SimpleNamespace
 from typing import Any
 
 from options_alpha_agent.config import Settings
-from options_alpha_agent.provenance import file_sha256
+from options_alpha_agent.provenance import file_sha256, is_unsafe_workspace_path
 
 OCC_SYMBOL = re.compile(r"^([A-Z0-9]{1,6})(\d{6})([CP])(\d{8})$")
 SNAPSHOT_COLUMNS = (
@@ -299,7 +299,7 @@ def capture_option_snapshot(
     if not 1 <= max_age_seconds <= 3_600:
         raise OptionSnapshotError("max_age_seconds must be between 1 and 3600")
     destination = Path(output_path)
-    if destination.is_absolute() or ".." in destination.parts:
+    if is_unsafe_workspace_path(output_path):
         raise OptionSnapshotError("output_path must be workspace-relative")
     if destination.exists():
         raise OptionSnapshotError("output_path already exists; snapshots are immutable")

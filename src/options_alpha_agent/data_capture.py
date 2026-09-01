@@ -10,7 +10,7 @@ from types import SimpleNamespace
 from typing import Any
 
 from options_alpha_agent.config import Settings
-from options_alpha_agent.provenance import file_sha256
+from options_alpha_agent.provenance import file_sha256, is_unsafe_workspace_path
 from options_alpha_agent.signals import SignalError, normalize_bars
 
 
@@ -63,7 +63,7 @@ def capture_underlying_bars(
         raise DataCaptureError("underlying must be a short uppercase symbol")
 
     destination = Path(output_path)
-    if destination.is_absolute() or ".." in destination.parts:
+    if is_unsafe_workspace_path(output_path):
         raise DataCaptureError("output_path must be workspace-relative")
 
     if client is None:

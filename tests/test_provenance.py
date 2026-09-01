@@ -2,7 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from options_alpha_agent.provenance import ProvenanceError, file_sha256
+from options_alpha_agent.provenance import (
+    ProvenanceError,
+    file_sha256,
+    is_unsafe_workspace_path,
+)
 
 
 def test_file_sha256_is_stable_and_content_based(tmp_path: Path) -> None:
@@ -19,3 +23,11 @@ def test_file_sha256_is_stable_and_content_based(tmp_path: Path) -> None:
 def test_file_sha256_rejects_missing_file(tmp_path: Path) -> None:
     with pytest.raises(ProvenanceError, match="does not exist"):
         file_sha256(tmp_path / "missing.csv")
+
+
+@pytest.mark.parametrize(
+    "path",
+    ["../outside.csv", "..\\outside.csv", "C:\\outside.csv", "\\\\server\\share\\file.csv"],
+)
+def test_workspace_path_safety_is_cross_platform(path: str) -> None:
+    assert is_unsafe_workspace_path(path) is True
