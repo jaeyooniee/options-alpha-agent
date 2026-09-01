@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+  <voice name="Microsoft Zira Desktop">
+    <p>
+      <s>Options Alpha is the Guarded Agent.</s>
+      <s>It is an autonomous options paper-trading system built on one simple premise: artificial intelligence may propose, but deterministic controls decide.</s>
+    </p>
+    <break time="900ms" />
+    <p>
+      <s>An options model can sound convincing and still be wrong.</s>
+      <s>Premiums can expire worthless, quotes can be stale, and a plausible thesis is not a risk limit.</s>
+      <s>Our design sanitizes timestamped evidence, recomputes bounded loss, and allows only defined-risk structures to reach a preview.</s>
+      <s>The model is a research layer, never a broker client.</s>
+    </p>
+    <break time="900ms" />
+    <p>
+      <s>The same evidence crosses five explicit boundaries.</s>
+      <s>First, Alpaca paper account, contract, quote, and indicator data are collected.</s>
+      <s>Second, stale, illiquid, incomplete, or undefined-risk candidates are filtered.</s>
+      <s>Third, Featherless returns one strict decision.</s>
+      <s>Fourth, deterministic code recalculates debit and maximum loss.</s>
+      <s>Finally, the system creates an unsent paper preview.</s>
+      <s>No provider failure or audit error can become an order.</s>
+    </p>
+    <break time="900ms" />
+    <p>
+      <s>Every strategy is options-only and independently measurable.</s>
+      <s>The allowlist contains long calls, long puts, call debit spreads, and put debit spreads.</s>
+      <s>Long options preserve convexity, while debit spreads cap cost and define maximum loss.</s>
+      <s>When the evidence is weak, abstention is a valid decision.</s>
+    </p>
+    <break time="900ms" />
+    <p>
+      <s>The dedicated Alpaca paper account is clean.</s>
+      <s>It was verified at one hundred thousand dollars, Level Three options approval, zero orders, zero fills, and zero positions.</s>
+      <s>Execution remains off behind two approvals and an independent kill switch.</s>
+      <s>The public demo can show a preview, but it cannot send a broker order.</s>
+    </p>
+    <break time="900ms" />
+    <p>
+      <s>Today, the project proves account health, Alpaca API and MCP reads, strict artificial intelligence validation, deterministic risk gates, and a hash-chained audit trail.</s>
+      <s>It also discloses what is not yet proven: multi-date options alpha, open-market shadow inference, and paper fills.</s>
+      <s>The first-order decision therefore remains no-go.</s>
+      <s>The differentiator is not giving a language model a broker key.</s>
+      <s>It is making artificial intelligence useful while keeping every capital decision bounded, deterministic, and auditable.</s>
+    </p>
+  </voice>
+</speak>

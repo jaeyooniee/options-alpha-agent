@@ -1,0 +1,5 @@
+timestamp,underlying,strategy,entry_debit_usd,exit_value_usd,max_loss_usd,days_to_expiry,bid_ask_spread_pct,min_open_interest,defined_risk,quantity,thesis
+2026-08-24T14:30:00+00:00,SPY,call_debit_spread,500,650,500,7,0.05,1000,true,1,seeded fixture only
+2026-08-25T14:30:00+00:00,SPY,put_debit_spread,600,420,600,9,0.08,800,true,1,seeded fixture only
+2026-08-26T14:30:00+00:00,QQQ,long_call,550,900,550,12,0.20,1500,true,1,wide quote should be rejected
+2026-08-27T14:30:00+00:00,SPY,long_put,2500,3200,2500,14,0.05,1200,true,1,oversized risk should be rejected

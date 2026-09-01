@@ -1,0 +1,5 @@
+*.pdf -text -diff
+*.mp4 -text -diff
+*.png -text -diff
+*.jpg -text -diff
+*.jpeg -text -diff

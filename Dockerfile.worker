@@ -1,0 +1,18 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    ALPACA_PAPER=true \
+    TRADE_EXECUTION_ENABLED=false \
+    PAPER_ORDER_APPROVED=false \
+    TRADING_KILL_SWITCH=true
+
+COPY pyproject.toml README.md LICENSE ./
+COPY src ./src
+
+RUN python -m pip install --no-cache-dir .
+
+# One invocation reconciles and runs a gated shadow cycle, then exits. Execution
+# remains blocked by the image's paper-only approval and kill-switch configuration.
+CMD ["options-alpha", "shadow-cycle", "--underlying", "SPY"]
