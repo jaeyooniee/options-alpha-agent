@@ -153,6 +153,8 @@ def test_invalid_model_output_fails_closed(tmp_path: Path) -> None:
     assert outcome.provider_status == "fail_closed"
     assert outcome.decision.action == "NO_TRADE"
     assert outcome.error_type == "AISchemaError"
+    event = json.loads((tmp_path / "audit.jsonl").read_text(encoding="utf-8").strip())
+    assert event["error_detail"] == "AI response is not valid JSON"
 
 
 def test_credential_like_model_text_fails_closed_without_being_persisted(tmp_path: Path) -> None:

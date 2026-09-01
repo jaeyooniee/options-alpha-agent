@@ -97,6 +97,17 @@ def _contains_sensitive_text(value: str) -> bool:
     return SENSITIVE_TEXT_RE.search(value) is not None
 
 
+def _safe_error_detail(exc: Exception) -> str | None:
+    """Return bounded validation detail without persisting provider output."""
+
+    if not isinstance(exc, (AISchemaError, EvidenceValidationError, AIBudgetError)):
+        return None
+    detail = str(exc).strip()
+    if not detail or len(detail) > 240 or _contains_sensitive_text(detail):
+        return None
+    return detail
+
+
 def _string_list(payload: Mapping[str, Any], name: str, *, required: bool) -> tuple[str, ...]:
     value = payload[name]
     if not isinstance(value, list) or len(value) > 8:
@@ -396,6 +407,10 @@ Required keys and types:
 - max_loss_usd: number
 - net_debit_usd: number
 
+Use JSON numbers, not quoted strings, for confidence, quantity, max_loss_usd, and
+net_debit_usd. Always include every required key, including the three arrays. Do
+not return a markdown fence, explanation, or any key outside this contract.
+
 For NO_TRADE, strategy must be null and quantity, max_loss_usd, and net_debit_usd must all be zero.
 For PROPOSE_TRADE, use only an allowlisted strategy, positive quantity, and positive bounded
 loss/debit.
@@ -485,6 +500,7 @@ class AIDecisionEngine:
         completion_tokens = 0
         provider_called = False
         estimated_cost = Decimal("0")
+        error_detail: str | None = None
         underlying = str(evidence.get("underlying", "SPY"))
 
         try:
@@ -536,6 +552,7 @@ class AIDecisionEngine:
         except Exception as exc:  # noqa: BLE001 - this is the fail-closed boundary
             status = "fail_closed"
             error_type = type(exc).__name__
+            error_detail = _safe_error_detail(exc)
             decision = _fail_closed_decision(underlying.upper(), error_type)
 
         latency_ms = round((time.perf_counter() - started) * 1000, 3)
@@ -548,6 +565,7 @@ class AIDecisionEngine:
             "provider_called": provider_called,
             "status": status,
             "error_type": error_type,
+            "error_detail": error_detail,
             "latency_ms": latency_ms,
             "prompt_sha256": _sha256_text(SYSTEM_PROMPT + "\n" + prompt),
             "evidence_sha256": _sha256_text(evidence_json),
