@@ -12,9 +12,9 @@ never printed, stored in this document, or committed to Git.
 - Availability: warm tier
 - Context length: 32,768 tokens
 - Observed pricing: `$0.125` input and `$1.15` output per million tokens
-- Inference calls during this verification: `1` synthetic smoke call
+- Inference calls during this verification: `2` synthetic smoke calls
 - Smoke result: valid decision contract, `NO_TRADE`, `error_type=null`,
-  `order_sent=false`, estimated cost `$0.00010934`
+  `order_sent=false`; the latest call estimated cost `$0.000199675`
 
 The application uses Featherless through its OpenAI-compatible API. The model
 can only return the exact decision contract in `src/options_alpha_agent/ai.py`.
