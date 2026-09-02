@@ -122,9 +122,15 @@ def _string_list(payload: Mapping[str, Any], name: str, *, required: bool) -> tu
 
 
 def _normalize_model_json(raw: str) -> str:
-    """Remove one provider-added JSON markdown fence, but no surrounding prose."""
+    """Remove only known provider wrappers, but no arbitrary surrounding prose."""
 
     normalized = raw.strip()
+    if normalized.lower().startswith("<think>"):
+        closing_tag = "</think>"
+        closing_index = normalized.lower().find(closing_tag)
+        if closing_index < 0:
+            raise AISchemaError("AI response reasoning wrapper is incomplete")
+        normalized = normalized[closing_index + len(closing_tag) :].strip()
     lines = normalized.splitlines()
     if len(lines) >= 3 and lines[0].strip().lower() in {"```", "```json"}:
         if lines[-1].strip() != "```":
@@ -133,6 +139,20 @@ def _normalize_model_json(raw: str) -> str:
     if not normalized:
         raise AISchemaError("AI response is empty after normalization")
     return normalized
+
+
+def _response_shape(raw: str) -> dict[str, Any]:
+    """Expose only non-content shape diagnostics for a rejected provider response."""
+
+    normalized = raw.strip()
+    lowered = normalized.lower()
+    return {
+        "length": len(raw),
+        "starts_with_think": lowered.startswith("<think>"),
+        "contains_think_close": "</think>" in lowered,
+        "starts_with_json_fence": lowered.startswith("```json") or lowered.startswith("```"),
+        "ends_with_json_fence": lowered.endswith("```"),
+    }
 
 
 @dataclass(frozen=True, slots=True)
@@ -584,6 +604,7 @@ class AIDecisionEngine:
             "prompt_sha256": _sha256_text(SYSTEM_PROMPT + "\n" + prompt),
             "evidence_sha256": _sha256_text(evidence_json),
             "response_sha256": _sha256_text(raw_response) if raw_response else None,
+            "response_shape": _response_shape(raw_response) if raw_response else None,
             "evidence": sanitized,
             "decision": decision.public_dict(),
             "prompt_tokens": prompt_tokens,

@@ -90,6 +90,17 @@ def test_model_json_normalization_rejects_surrounding_prose() -> None:
         AIDecision.from_json("Here is the decision:\n" + no_trade_json())
 
 
+def test_model_json_normalization_accepts_one_closed_reasoning_wrapper() -> None:
+    wrapped = f"<think>internal reasoning</think>\n{no_trade_json()}"
+    decision = AIDecision.from_json(wrapped)
+    assert decision.action == "NO_TRADE"
+
+
+def test_model_json_normalization_rejects_unclosed_reasoning_wrapper() -> None:
+    with pytest.raises(AISchemaError, match="reasoning wrapper is incomplete"):
+        AIDecision.from_json("<think>internal reasoning\n" + no_trade_json())
+
+
 def test_schema_rejects_extra_keys() -> None:
     payload = json.loads(no_trade_json())
     payload["order_payload"] = {"symbol": "must-never-reach-broker"}
