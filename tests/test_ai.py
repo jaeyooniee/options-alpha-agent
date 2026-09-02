@@ -79,6 +79,17 @@ def test_strict_no_trade_schema_accepts_exact_contract() -> None:
     assert decision.max_loss_usd == 0
 
 
+def test_model_json_normalization_accepts_one_json_fence_only() -> None:
+    fenced = f"```json\n{no_trade_json()}\n```"
+    decision = AIDecision.from_json(fenced)
+    assert decision.action == "NO_TRADE"
+
+
+def test_model_json_normalization_rejects_surrounding_prose() -> None:
+    with pytest.raises(AISchemaError, match="not valid JSON"):
+        AIDecision.from_json("Here is the decision:\n" + no_trade_json())
+
+
 def test_schema_rejects_extra_keys() -> None:
     payload = json.loads(no_trade_json())
     payload["order_payload"] = {"symbol": "must-never-reach-broker"}

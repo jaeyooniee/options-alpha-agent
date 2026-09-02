@@ -121,6 +121,20 @@ def _string_list(payload: Mapping[str, Any], name: str, *, required: bool) -> tu
     return tuple(item.strip() for item in value)
 
 
+def _normalize_model_json(raw: str) -> str:
+    """Remove one provider-added JSON markdown fence, but no surrounding prose."""
+
+    normalized = raw.strip()
+    lines = normalized.splitlines()
+    if len(lines) >= 3 and lines[0].strip().lower() in {"```", "```json"}:
+        if lines[-1].strip() != "```":
+            raise AISchemaError("AI response markdown fence is incomplete")
+        normalized = "\n".join(lines[1:-1]).strip()
+    if not normalized:
+        raise AISchemaError("AI response is empty after normalization")
+    return normalized
+
+
 @dataclass(frozen=True, slots=True)
 class AIDecision:
     """Validated model output. It is a proposal, never an executable order."""
@@ -140,7 +154,7 @@ class AIDecision:
     @classmethod
     def from_json(cls, raw: str) -> AIDecision:
         try:
-            payload = json.loads(raw)
+            payload = json.loads(_normalize_model_json(raw))
         except json.JSONDecodeError as exc:
             raise AISchemaError("AI response is not valid JSON") from exc
         if not isinstance(payload, dict):

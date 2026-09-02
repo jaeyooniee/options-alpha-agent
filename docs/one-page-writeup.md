@@ -9,8 +9,9 @@ DTE) option-chain filtering and structured model reasoning. The Featherless mode
 is called through an OpenAI-compatible provider boundary and receives sanitized,
 timestamped evidence. It must return one exact JSON object containing either
 `NO_TRADE` or a defined-risk options proposal. Invalid, incomplete, stale, or
-unsupported output fails closed. Prompt/response hashes, evidence, model
-metadata, rejected alternatives, token usage, estimated cost, and
+unsupported output fails closed. A provider-added single JSON markdown fence may
+be normalized, but surrounding prose or multiple objects still fail closed.
+Prompt/response hashes, evidence, model metadata, rejected alternatives, token usage, estimated cost, and
 `order_sent=false` are written to a hash-chained audit log. The model may
 propose and explain trades, but it cannot place an order or override
 deterministic controls.

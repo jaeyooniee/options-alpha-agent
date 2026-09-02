@@ -3,6 +3,8 @@ from decimal import Decimal
 
 from options_alpha_agent.exits import ManagedPosition, evaluate_exit
 
+INTRADAY_NOW = datetime(2026, 8, 31, 18, 0, tzinfo=UTC)  # 14:00 New York.
+
 
 def position(**overrides: object) -> ManagedPosition:
     values: dict[str, object] = {
@@ -20,14 +22,20 @@ def position(**overrides: object) -> ManagedPosition:
 
 
 def test_exit_policy_is_ai_independent_and_takes_profit() -> None:
-    decision = evaluate_exit(position(current_value_usd=Decimal("800")))
+    decision = evaluate_exit(
+        position(current_value_usd=Decimal("800")),
+        now=INTRADAY_NOW,
+    )
 
     assert decision.action == "EXIT_REVIEW"
     assert decision.reasons == ("take_profit_threshold",)
 
 
 def test_exit_policy_stops_loss() -> None:
-    decision = evaluate_exit(position(current_value_usd=Decimal("100")))
+    decision = evaluate_exit(
+        position(current_value_usd=Decimal("100")),
+        now=INTRADAY_NOW,
+    )
 
     assert decision.action == "EXIT_REVIEW"
     assert decision.reasons == ("stop_loss_threshold",)
