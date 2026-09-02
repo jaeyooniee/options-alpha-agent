@@ -133,7 +133,8 @@ durable storage.
 
 The default AI provider is Featherless through its OpenAI-compatible API. Set
 `FEATHERLESS_API_KEY` in the local `.env`; the selected default model is
-`deepseek-ai/DeepSeek-V4-Flash`. The AI boundary is intentionally small and
+`mistralai/Mistral-Large-Instruct-2411`, validated with the repository's
+`ai-smoke` contract test. The AI boundary is intentionally small and
 fail-closed: it accepts evidence, returns one strict JSON decision, and can
 only produce `NO_TRADE` or an unexecuted proposal. It cannot call Alpaca or
 change risk limits. Provider calls are capped by count and estimated daily

@@ -2,17 +2,19 @@
 
 ## Read-only verification
 
-On 2026-08-29 KST, the configured Featherless API key was used only for
-authenticated plan and model metadata requests. The key itself is never printed,
-stored in this document, or committed to Git.
+On 2026-09-02 KST, the configured Featherless API key was used for authenticated
+plan/model metadata and one synthetic, non-trading inference. The key itself is
+never printed, stored in this document, or committed to Git.
 
 - Provider plan: `Request Pricing` (`feather_request_pricing`)
-- Selected model: `deepseek-ai/DeepSeek-V4-Flash`
+- Selected model: `mistralai/Mistral-Large-Instruct-2411`
 - Model status: active
-- Availability: live warm/hot tier
-- Context length: 262,144 tokens
-- Observed pricing: `$0.14` input and `$0.28` output per million tokens
-- Inference calls during this verification: `0`
+- Availability: warm tier
+- Context length: 32,768 tokens
+- Observed pricing: `$0.125` input and `$1.15` output per million tokens
+- Inference calls during this verification: `1` synthetic smoke call
+- Smoke result: valid decision contract, `NO_TRADE`, `error_type=null`,
+  `order_sent=false`, estimated cost `$0.00010934`
 
 The application uses Featherless through its OpenAI-compatible API. The model
 can only return the exact decision contract in `src/options_alpha_agent/ai.py`.

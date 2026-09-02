@@ -66,7 +66,7 @@ class Settings:
     ai_provider: str = "featherless"
     featherless_api_key: str | None = None
     featherless_base_url: str = "https://api.featherless.ai/v1"
-    featherless_model: str = "deepseek-ai/DeepSeek-V4-Flash"
+    featherless_model: str = "mistralai/Mistral-Large-Instruct-2411"
     openai_model: str = "gpt-5-mini"
     paper_order_approved: bool = False
     trading_kill_switch: bool = True
@@ -75,8 +75,8 @@ class Settings:
     ai_max_output_tokens: int = 600
     ai_max_daily_calls: int = 200
     ai_max_daily_cost_usd: Decimal = Decimal("2.50")
-    ai_input_cost_per_million_usd: Decimal = Decimal("0.14")
-    ai_output_cost_per_million_usd: Decimal = Decimal("0.28")
+    ai_input_cost_per_million_usd: Decimal = Decimal("0.125")
+    ai_output_cost_per_million_usd: Decimal = Decimal("1.15")
     ai_audit_log_path: str = "logs/ai-decisions.jsonl"
     worker_lock_path: str = "logs/shadow-cycle.lock"
     durable_state_backend: str = "local"
@@ -106,7 +106,7 @@ class Settings:
                 "FEATHERLESS_BASE_URL", "https://api.featherless.ai/v1"
             ).rstrip("/"),
             featherless_model=os.getenv(
-                "FEATHERLESS_MODEL", "deepseek-ai/DeepSeek-V4-Flash"
+                "FEATHERLESS_MODEL", "mistralai/Mistral-Large-Instruct-2411"
             ).strip(),
             openai_model=os.getenv("OPENAI_MODEL", "gpt-5-mini").strip(),
             paper_order_approved=_bool_env("PAPER_ORDER_APPROVED", False),
@@ -116,8 +116,8 @@ class Settings:
             ai_max_output_tokens=_int_env("AI_MAX_OUTPUT_TOKENS", 600),
             ai_max_daily_calls=_int_env("AI_MAX_DAILY_CALLS", 200),
             ai_max_daily_cost_usd=_decimal_env("AI_MAX_DAILY_COST_USD", "2.50"),
-            ai_input_cost_per_million_usd=_decimal_env("AI_INPUT_COST_PER_MILLION_USD", "0.14"),
-            ai_output_cost_per_million_usd=_decimal_env("AI_OUTPUT_COST_PER_MILLION_USD", "0.28"),
+            ai_input_cost_per_million_usd=_decimal_env("AI_INPUT_COST_PER_MILLION_USD", "0.125"),
+            ai_output_cost_per_million_usd=_decimal_env("AI_OUTPUT_COST_PER_MILLION_USD", "1.15"),
             ai_audit_log_path=os.getenv("AI_AUDIT_LOG_PATH", "logs/ai-decisions.jsonl").strip(),
             worker_lock_path=os.getenv("WORKER_LOCK_PATH", "logs/shadow-cycle.lock").strip(),
             durable_state_backend=os.getenv("DURABLE_STATE_BACKEND", "local").strip().lower(),

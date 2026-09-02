@@ -35,7 +35,7 @@ def test_featherless_provider_reads_credentials(monkeypatch: pytest.MonkeyPatch)
     settings = Settings.from_env()
 
     assert settings.has_ai_credentials is True
-    assert settings.featherless_model == "deepseek-ai/DeepSeek-V4-Flash"
+    assert settings.featherless_model == "mistralai/Mistral-Large-Instruct-2411"
 
 
 def test_unofficial_featherless_base_url_is_rejected(
